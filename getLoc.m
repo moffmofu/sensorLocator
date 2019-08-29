@@ -17,13 +17,14 @@ end
 
 %% readfile
 if contains(filename,'.xml')
-    % xml
+    % .xml
     data=readxml(filename);
 elseif contains(filename,'.')
-    %
+    % 
+    data=readllllllllll();
 elseif contains(filename,'.txt')
     %
-    
+    data=readrrrrrrrrrrr();
 else
     % invalid extension
     msg=strcat("Given file style is not supported.\n",...
@@ -32,10 +33,18 @@ else
 end
 
 %% reform data
-if strcmpi(data,"xy")
-    
-elseif strcmpi(data,"3")
-    
+if strcmpi(mode,"xy")
+    out=zeros(2,129);
+    for cnt=1:129
+        out(:,cnt)=[data(cnt).x,data(cnt).y];
+    end
+    out=out-1; %adjust location
+elseif strcmpi(mode,"3")
+    out=zeros(3,129);
+    for cnt=1:129
+        out(:,cnt)=[data(cnt).x,data(cnt).y];
+    end
+    out=out-1; %adjust location
 end
 
 
