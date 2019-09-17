@@ -1,17 +1,29 @@
 function out=getLoc(filename,varargin)
 % import & translate the senseor layouts from the file exported by GPS system
 % param.1 : filename to read
-% param.2 : mode("xy"=2dim_xyPlane , "3"=3dim)
+% param.x : 
+%   dim("xy"=2dim_xyPlane , "3"=3dim)
+%   unit("raw","np1"=-1~1,"01"=0~1)
 
-if nargin==1
-    mode="xy";
-elseif nargin>2
-    error("too many param.")
-else
-    mode=varargin{1};
-    if strcmpi(mode,"xy")||strcmpi(mode,"3")
-    else
-        error("invalid param.")
+dim="xy";
+unit="raw";
+if nargin>1
+    for cnt=1:2:nargin-1
+        tango=cell2mat(varargin{cnt});
+        if strcmpi(tango,"dim")
+            dim=varargin{cnt+1};
+            if strcmpi(dim,"xy")||strcmpi(dim,"3")||strcmpi(dim,"3d")
+            else
+                error("invalid param.")
+            end
+        elseif strcmpi(tango,"unit")
+            unit=cell2mat(varargin{cnt+1});
+            if strcmpi(unit,"raw")||strcmpi(unit,"np1")||strcmpi(unit,"01")
+            else
+                error("invalid param.")
+            end
+        end
+        
     end
 end
 
@@ -48,15 +60,34 @@ end
 %% reform data
 
 
-if strcmpi(mode,"xy")
+if strcmpi(dim,"xy")
     out=cutXYPlane(copy);
     
-elseif strcmpi(mode,"3")
+elseif strcmpi(dim,"3")||strcmpi("3d")
     % Žg‚¢•û‚ðŒ©‚ÄŒˆ‚ß‚é
     out=copy;
 end
 
-out=adjust4CreateTopo(out);
+if strcmpi(unit,"raw")
+    
+elseif strcmpi(unit,"np1")
+    ref=out;
+    ref=ref.^2;
+    ref=sqrt(sum(ref,1));
+    [ref,ind]=max(ref);
+    out=out/ref;
+    fprintf("ref:%d",ind)
+    
+    
+elseif strcmpi(unit,"01")
+    ref=out(:,17);
+    ref=ref.^2;
+    ref=sqrt(sum(ref,1));
+    [ref,ind]=max(ref);
+    out=out/ref;
+    fprintf("ref:%d",ind)
+    out=out+1;
+end
 
 
 end
@@ -78,10 +109,10 @@ output=input;
 end
 
 function main3d
-tester=getLoc("test4(MHT1-3-before2).xml","3");
-scatter3(tester(1,:),tester(2,:),tester(3,:))
+test=getLoc("test4(MHT1-3-before2).xml","dim","3","unit","np1");
+scatter3(test(1,:),test(2,:),test(3,:))
 hold on
-scatter3(tester(1,129:132),tester(2,129:132),tester(3,129:132))
+scatter3(test(1,129:132),test(2,129:132),test(3,129:132))
 grid on
-scatter3(tester(1,81),tester(2,81),tester(3,81))
+scatter3(test(1,81),test(2,81),test(3,81))
 end

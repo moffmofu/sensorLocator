@@ -10,11 +10,14 @@ function [out,vars,space]=averageLoc(fileNames,varargin)
 
 if nargin>1
     mode=cell2mat(varargin{1});
-    if strcmpi(mode,"xy")
-        outWid=2;
-    elseif strcmpi(mode,"3")
-        outWid=3;
-    end
+else
+    mode="3";
+end
+
+if strcmpi(mode,"xy")
+    outWid=2;
+elseif strcmpi(mode,"3")||strcmpi(mode,"3d")
+    outWid=3;
 end
 tangoLen=length(fileNames);
 space=zeros(outWid,132,tangoLen);
