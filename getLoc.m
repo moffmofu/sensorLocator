@@ -9,7 +9,7 @@ dim="xy";
 unit="raw";
 if nargin>1
     for cnt=1:2:nargin-1
-        tango=cell2mat(varargin{cnt});
+        tango=varargin{cnt};
         if strcmpi(tango,"dim")
             dim=varargin{cnt+1};
             if strcmpi(dim,"xy")||strcmpi(dim,"3")||strcmpi(dim,"3d")
@@ -17,7 +17,7 @@ if nargin>1
                 error("invalid param.")
             end
         elseif strcmpi(tango,"unit")
-            unit=cell2mat(varargin{cnt+1});
+            unit=varargin{cnt+1};
             if strcmpi(unit,"raw")||strcmpi(unit,"np1")||strcmpi(unit,"01")
             else
                 error("invalid param.")
@@ -61,8 +61,8 @@ end
 
 
 if strcmpi(dim,"xy")
-    out=cutXYPlane(copy);
-    
+    %out=cutXYPlane(copy);
+    out=copy(1:2,:);
 elseif strcmpi(dim,"3")||strcmpi("3d")
     % Žg‚¢•û‚ðŒ©‚ÄŒˆ‚ß‚é
     out=copy;
@@ -76,7 +76,7 @@ elseif strcmpi(unit,"np1")
     ref=sqrt(sum(ref,1));
     [ref,ind]=max(ref);
     out=out/ref;
-    fprintf("ref:%d",ind)
+    fprintf("ref:%d \n",ind)
     
     
 elseif strcmpi(unit,"01")
@@ -85,7 +85,7 @@ elseif strcmpi(unit,"01")
     ref=sqrt(sum(ref,1));
     [ref,ind]=max(ref);
     out=out/ref;
-    fprintf("ref:%d",ind)
+    fprintf("ref:%d \n",ind)
     out=out+1;
 end
 
@@ -101,14 +101,9 @@ dRPA=0-input(:,131);
 %shadow each point by normal vecter
 end
 
-function output=adjust4CreateTopo(input)
-%pull(-1~1)
-output=input;
-
-%push(0~1)
-end
-
 function main3d
+%invalid
+%copy&paste into command window.
 test=getLoc("test4(MHT1-3-before2).xml","dim","3","unit","np1");
 scatter3(test(1,:),test(2,:),test(3,:))
 hold on
