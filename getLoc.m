@@ -1,7 +1,7 @@
 function out=getLoc(filename,varargin)
 % import & translate the senseor layouts from the file exported by GPS system
 % param.1 : filename to read
-% param.x : 
+% param.x :
 %   dim("xy"=2dim_xyPlane , "3"=3dim)
 %   unit("raw","np1"=-1~1,"01"=0~1)
 
@@ -23,7 +23,7 @@ if nargin>1
                 error("invalid param.")
             end
         end
-        
+
     end
 end
 
@@ -64,12 +64,12 @@ if strcmpi(dim,"xy")
     %out=cutXYPlane(copy);
     out=copy(1:2,:);
 elseif strcmpi(dim,"3")||strcmpi("3d")
-    % Žg‚¢•û‚ðŒ©‚ÄŒˆ‚ß‚é
+    % ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄŒï¿½ï¿½ß‚ï¿½
     out=copy;
 end
 
 if strcmpi(unit,"raw")
-    
+
 elseif strcmpi(unit,"np1")
     ref=out;
     ref=ref.^2;
@@ -77,16 +77,16 @@ elseif strcmpi(unit,"np1")
     [ref,ind]=max(ref);
     out=out/ref;
     fprintf("ref:%d \n",ind)
-    
-    
+
+
 elseif strcmpi(unit,"01")
     ref=out(:,17);
     ref=ref.^2;
     ref=sqrt(sum(ref,1));
     [ref,ind]=max(ref);
-    out=out/ref;
+    out=out/(2*ref);
     fprintf("ref:%d \n",ind)
-    out=out+1;
+    out=out+0.5;
 end
 
 
@@ -94,7 +94,7 @@ end
 
 function output=cutXYPlane(input)
 output=input(1:2,:);
-%rotate & set 
+%rotate & set
 input=cart2pol(input);
 dLPA=pi-input(:,130);
 dRPA=0-input(:,131);
