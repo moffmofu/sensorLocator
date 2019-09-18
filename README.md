@@ -13,7 +13,11 @@ test1...1).xmlとtest2...2).xmlから指定した次元の座標でプロット�
 - ２データを単純に重ねてプロットした図
 - 2データの平均値をプロットした図
 - 平均と標準偏差を反映したプロット
-の3つが出力されます。
+の3つが出力されます。<br>
+![こんなのできます1](https://github.com/moffmofu/sensorLocator/blob/master/resImages/indiv_dim-xy_unit-np1.png "こんなのできます1")<br>
+![こんなのできます2](https://github.com/moffmofu/sensorLocator/blob/master/resImages/aver_dim-3_unit-np1.png "こんなのできます2")<br>
+![こんなのできます3](https://github.com/moffmofu/sensorLocator/blob/master/resImages/show.gif "こんなのできます3")<br>
+
 
 ### ---getLoc.m---
 
